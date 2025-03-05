@@ -5,7 +5,7 @@ RUN apk update && apk upgrade && \
     mariadb-client \
     mariadb-server-utils gettext
 
-RUN mkdir -p /run/mysqld /docker-entrypoint-initdb.d && chown -R mysql:mysql /var/lib/mysql /run/mysqld /docker-entrypoint-initdb.d
+RUN mkdir -p /run/mysqld && chown -R mysql:mysql /var/lib/mysql /run/mysqld
 
 RUN mariadb-install-db --user=mysql --datadir=/var/lib/mysql
 
