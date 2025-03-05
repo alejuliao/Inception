@@ -1,25 +1,39 @@
 version: '3'
 
 services:
-  nginx:
-    container_name: nginx
-    image: nginx
-    build: 
-      context: ./nginx
-      dockerfile: Dockerfile
-    ports:
-     - "443:443"
-    networks: 
-     - inception
+  # nginx:
+  #   container_name: nginx
+  #   image: nginx
+  #   build: 
+  #     context: ./nginx
+  #     dockerfile: Dockerfile
+  #   # ports:
+  #   #  - "443:443"
+  #   networks: 
+  #    - inception
 
-  wordpress:
-    container_name: wordpress
-    image: wordpress
+  # wordpress:
+  #   container_name: wordpress
+  #   image: wordpress
+  #   build:
+  #     context: ./wordpress
+  #     dockerfile: Dockerfile
+  #   # ports:
+  #   #  - "9000:9000"
+  #   networks:
+  #    - inception
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb
     build:
-      context: ./wordpress
+      context: ./mariadb
       dockerfile: Dockerfile
-    ports:
-     - "9000:9000"
+    environment:
+      - SQL_DATABASE=${SQL_DATABASE}
+      - SQL_USER=${SQL_USER}
+      - SQL_PASSWORD=${SQL_PASSWORD}
+      - SQL_ROOT_PASSWORD=${SQL_ROOT_PASSWORD}
     networks:
      - inception
 

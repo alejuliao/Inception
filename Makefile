@@ -1,6 +1,4 @@
-DOCKER_COMPOSE_FILE=docker-compose.yml
-
-DOCKER-COMPOSE=docker-compose -f ./srcs/docker-compose.yml
+DOCKER-COMPOSE=docker-compose --env-file ./srcs/.env -f ./srcs/docker-compose.yml
 
 up:
 	$(DOCKER-COMPOSE) up -d
@@ -21,7 +19,7 @@ shell-nginx:
 	docker exec -it nginx sh
 
 shell-db:
-	docker exec -it mariadb sh
+	docker exec -it mariadb mariadb -u root -p
 
 shell-wp:
 	docker exec -it wordpress sh
