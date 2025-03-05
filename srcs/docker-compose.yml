@@ -9,3 +9,11 @@ services:
       dockerfile: Dockerfile
     ports:
      - "443:443"
+  wordpress:
+    container_name: wordpress
+    image: wordpress
+    build:
+      context: ./wordpress
+      dockerfile: Dockerfile
+    ports:
+     - "9000:9000"

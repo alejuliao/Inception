@@ -12,7 +12,8 @@ RUN openssl req -x509 -newkey rsa:4096 -keyout /etc/nginx/ssl/ajuliao.key \
 RUN mkdir -p /usr/share/nginx/html/
 COPY ./srcs/html/index.html /usr/share/nginx/html/
 
-COPY ./srcs/nginx.conf /etc/nginx/
+RUN mv /etc/nginx/http.d/default.conf /etc/nginx/http.d/00-default.conf
+COPY ./srcs/01-ajuliao.conf /etc/nginx/http.d/
 
 EXPOSE 443
 
