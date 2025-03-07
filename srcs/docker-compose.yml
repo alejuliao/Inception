@@ -1,28 +1,10 @@
 version: '3'
 
+networks:
+  inception:
+    driver: bridge
+
 services:
-  # nginx:
-  #   container_name: nginx
-  #   image: nginx
-  #   build: 
-  #     context: ./nginx
-  #     dockerfile: Dockerfile
-  #   # ports:
-  #   #  - "443:443"
-  #   networks: 
-  #    - inception
-
-  # wordpress:
-  #   container_name: wordpress
-  #   image: wordpress
-  #   build:
-  #     context: ./wordpress
-  #     dockerfile: Dockerfile
-  #   # ports:
-  #   #  - "9000:9000"
-  #   networks:
-  #    - inception
-
   mariadb:
     container_name: mariadb
     image: mariadb
@@ -36,7 +18,43 @@ services:
       - SQL_ROOT_PASSWORD=${SQL_ROOT_PASSWORD}
     networks:
      - inception
+    # ports:
+    #  - "3306:3306"
+    # restart: always
 
-networks:
-  inception:
-    driver: bridge
+  wordpress:
+    container_name: wordpress
+    image: wordpress
+    build:
+      context: ./wordpress
+      dockerfile: Dockerfile
+    volumes:
+     - wordpress:/var/www/html
+    ports:
+     - "9000:9000"
+    networks:
+     - inception
+    # restart: always
+    depends_on:
+     - mariadb
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+     - wordpress:/var/www/html
+    ports:
+     - "443:443"
+    networks: 
+     - inception
+    depends_on:
+     - mariadb
+     - wordpress
+
+volumes:
+  wordpress:
+    name: wordpress
+    external: true
