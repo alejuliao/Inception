@@ -1,11 +1,12 @@
-FROM alpine:3.19
+FROM alpine:latest
 
-RUN apk update && apk add --no-cache \
-    php81 \
-    php81-fpm \
-    php81-mysqli \
-    php81-mbstring \
-    curl
+RUN apk update && apk upgrade && \
+    apk add --no-cache \
+    php83 \
+    php83-fpm \
+    php83-mysqli \
+    php83-mbstring \
+    curl vim bash
 
 WORKDIR /var/www/html
 
@@ -15,8 +16,8 @@ RUN curl -o wordpress.tar.gz https://wordpress.org/latest.tar.gz && \
 
 RUN chown -R nobody:nobody /var/www/html/
 
-COPY /srcs/www.conf /etc/php81/php-fpm.d/www.conf
+COPY /srcs/www.conf /etc/php83/php-fpm.d/www.conf
 
 EXPOSE 9000
 
-CMD ["php-fpm81", "-F"]
+CMD ["php-fpm83", "-F"]

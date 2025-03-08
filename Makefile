@@ -33,12 +33,10 @@ ps:
 create-volumes:
 	docker volume create wordpress
 	docker volume create mariadb
-	docker volume create nginx
 
 remove-volumes:
 	docker volume rm wordpress
 	docker volume rm mariadb
-	docker volume rm nginx
 
 fclean: clean
 	docker rmi -f $(shell docker images -q)
