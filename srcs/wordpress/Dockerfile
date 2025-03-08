@@ -10,7 +10,7 @@ RUN apk update && apk upgrade && \
 
 WORKDIR /var/www/html
 
-RUN curl -o wordpress.tar.gz https://wordpress.org/latest.tar.gz && \
+RUN curl -o wordpress.tar.gz https://wordpress.org/wordpress-6.4.tar.gz && \
     tar -xzf wordpress.tar.gz --strip-components=1 && \
     rm wordpress.tar.gz && apk del curl
 
