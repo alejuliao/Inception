@@ -11,13 +11,13 @@ services:
     build:
       context: ./mariadb
       dockerfile: Dockerfile
+      args:
+          SQL_DATABASE: wpdb
+          SQL_USER: ajuliao
+          SQL_PASSWORD: 123@Password321
+          SQL_ROOT_PASSWORD: 123@Password321
     volumes:
       - mariadb:/var/lib/mysql
-    environment:
-      - SQL_DATABASE=${SQL_DATABASE}
-      - SQL_USER=${SQL_USER}
-      - SQL_PASSWORD=${SQL_PASSWORD}
-      - SQL_ROOT_PASSWORD=${SQL_ROOT_PASSWORD}
     networks:
      - inception
     ports:

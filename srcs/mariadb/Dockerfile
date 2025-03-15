@@ -1,24 +1,33 @@
 FROM alpine:latest
 
+ARG SQL_DATABASE
+ARG SQL_USER
+ARG SQL_PASSWORD
+ARG SQL_ROOT_PASSWORD
+
 RUN apk update && apk upgrade && \
-    apk add --no-cache mariadb \
-    mariadb-client \
-    mariadb-server-utils gettext
+    apk add --no-cache mariadb mariadb-client mariadb-server-utils gettext bash
 
 RUN mkdir -p /run/mysqld && chown -R mysql:mysql /var/lib/mysql /run/mysqld
 RUN mkdir -p /var/log/mysql && chown -R mysql:mysql /var/log/mysql
 
-# Remover mariadb-install-db, pois será feito pelo init-db.sh
-# RUN mariadb-install-db --user=mysql --datadir=/var/lib/mysql
+COPY ./srcs/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 
-COPY ./srcs/init-db.sh ./init-db.sh
-COPY ./srcs/50-server.cnf /etc/my.cnf.d/50-server.cnf
-
-RUN chmod +x ./init-db.sh
+RUN if [ ! -d "/var/lib/mysql/mysql" ]; then \
+        mariadb-install-db --user=mysql --datadir=/var/lib/mysql;\
+    fi && \
+    mariadbd --datadir=/var/lib/mysql --user=mysql & \
+    until mariadb-admin ping --silent; do sleep 1; done && \
+    mariadb -u root -e "CREATE DATABASE IF NOT EXISTS ${SQL_DATABASE}; \
+                       CREATE USER IF NOT EXISTS '${SQL_USER}'@'%' IDENTIFIED BY '${SQL_ROOT_PASSWORD}'; \
+                       GRANT ALL PRIVILEGES ON wpdb.* TO '${SQL_USER}'@'%' WITH GRANT OPTION; \
+                       FLUSH PRIVILEGES;" && \
+    mariadb-admin -u root password "${SQL_ROOT_PASSWORD}" && \
+    mariadb -u root --password="${SQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
 
 EXPOSE 3306
 
-CMD ["sh", "./init-db.sh"]
+CMD ["mariadbd", "--datadir=/var/lib/mysql", "--user=mysql"]
 
 # FROM alpine:latest
 
@@ -28,17 +37,13 @@ CMD ["sh", "./init-db.sh"]
 #     mariadb-server-utils gettext
 
 # RUN mkdir -p /run/mysqld && chown -R mysql:mysql /var/lib/mysql /run/mysqld
-
 # RUN mkdir -p /var/log/mysql && chown -R mysql:mysql /var/log/mysql
 
-# RUN mariadb-install-db --user=mysql --datadir=/var/lib/mysql
-
 # COPY ./srcs/init-db.sh ./init-db.sh
-
-# COPY ./srcs/50-server.cnf /etc/my.cnf.d/50-server.cnf
+# COPY ./srcs/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 
 # RUN chmod +x ./init-db.sh
- 
+
 # EXPOSE 3306
 
-# CMD ["./init-db.sh"]
+# CMD ["sh", "./init-db.sh"]
