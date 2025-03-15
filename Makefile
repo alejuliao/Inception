@@ -19,7 +19,8 @@ shell-nginx:
 	docker exec -it nginx sh
 
 shell-db:
-	docker exec -it mariadb mariadb -u root -p
+	docker exec -it mariadb sh
+# mariadb -u root -p
 
 shell-wp:
 	docker exec -it wordpress sh
