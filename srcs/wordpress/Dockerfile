@@ -1,4 +1,12 @@
-FROM alpine:latest
+FROM alpine:3.20.6
+
+ARG WP_TITLE
+ARG WP_DOMAIN
+ARG WP_EMAIL
+ARG WP_USER
+ARG WP_PASSWORD
+ARG SQL_USER
+ARG SQL_ROOT_PASSWORD
 
 RUN apk update && apk upgrade && \
     apk add --no-cache \
@@ -27,10 +35,22 @@ RUN chmod +x wp-cli.phar
 
 RUN mv wp-cli.phar /usr/local/bin/wp
 
-# RUN wp config create --dbname=wpdb --dbuser=ajuliao --dbpass='123@Password321' --dbhost=mariadb --dbprefix=wp_
+COPY ./srcs/init.sh /var/www/html/
+
+RUN sed -i \
+    -e "s|\${WP_TITLE}|${WP_TITLE}|g" \
+    -e "s|\${WP_DOMAIN}|${WP_DOMAIN}|g" \
+    -e "s|\${WP_EMAIL}|${WP_EMAIL}|g" \
+    -e "s|\${WP_USER}|${WP_USER}|g" \
+    -e "s|\${WP_PASSWORD}|${WP_PASSWORD}|g" \
+    -e "s|\${SQL_USER}|${SQL_USER}|g" \
+    -e "s|\${SQL_ROOT_PASSWORD}|${SQL_ROOT_PASSWORD}|g" \
+    /var/www/html/init.sh
 
 #clean apk useless
 
+RUN chmod +x /var/www/html/init.sh
+
 EXPOSE 9000
 
-CMD ["php-fpm83", "-F"]
+ENTRYPOINT ["sh", "/var/www/html/init.sh"]

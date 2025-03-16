@@ -1,14 +1,14 @@
-FROM alpine:latest
+FROM alpine:3.20.6
 
 ARG SQL_DATABASE
 ARG SQL_USER
-ARG SQL_PASSWORD
 ARG SQL_ROOT_PASSWORD
 
 RUN apk update && apk upgrade && \
     apk add --no-cache mariadb mariadb-client mariadb-server-utils gettext bash
 
 RUN mkdir -p /run/mysqld && chown -R mysql:mysql /var/lib/mysql /run/mysqld
+
 RUN mkdir -p /var/log/mysql && chown -R mysql:mysql /var/log/mysql
 
 COPY ./srcs/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
@@ -28,22 +28,3 @@ RUN if [ ! -d "/var/lib/mysql/mysql" ]; then \
 EXPOSE 3306
 
 CMD ["mariadbd", "--datadir=/var/lib/mysql", "--user=mysql"]
-
-# FROM alpine:latest
-
-# RUN apk update && apk upgrade && \
-#     apk add --no-cache mariadb \
-#     mariadb-client \
-#     mariadb-server-utils gettext
-
-# RUN mkdir -p /run/mysqld && chown -R mysql:mysql /var/lib/mysql /run/mysqld
-# RUN mkdir -p /var/log/mysql && chown -R mysql:mysql /var/log/mysql
-
-# COPY ./srcs/init-db.sh ./init-db.sh
-# COPY ./srcs/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
-
-# RUN chmod +x ./init-db.sh
-
-# EXPOSE 3306
-
-# CMD ["sh", "./init-db.sh"]
