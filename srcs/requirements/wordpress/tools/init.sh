@@ -7,7 +7,6 @@ fi
 
 wp config set WP_REDIS_HOST "redis" --allow-root
 wp config set WP_REDIS_PORT 6379 --raw --allow-root
-# wp config set WP_REDIS_DATABASE 0 --raw --allow-root
 wp config set WP_CACHE true --raw --allow-root
 
 if ! wp core is-installed --allow-root; then
