@@ -27,7 +27,7 @@ RUN curl -o wordpress.tar.gz https://wordpress.org/wordpress-6.4.tar.gz && \
 
 RUN chown -R nobody:nobody /var/www/html/
 
-COPY /srcs/www.conf /etc/php83/php-fpm.d/www.conf
+COPY /conf/www.conf /etc/php83/php-fpm.d/www.conf
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
@@ -35,7 +35,7 @@ RUN chmod +x wp-cli.phar
 
 RUN mv wp-cli.phar /usr/local/bin/wp
 
-COPY ./srcs/init.sh /var/www/html/
+COPY ./tools/init.sh /var/www/html/
 
 RUN sed -i \
     -e "s|\${WP_TITLE}|${WP_TITLE}|g" \

@@ -15,7 +15,7 @@ RUN openssl req -x509 -newkey rsa:4096 -keyout /etc/nginx/ssl/${WP_DOMAIN}.key \
 
 RUN mv /etc/nginx/http.d/default.conf /etc/nginx/http.d/00-default.conf
 
-COPY ./srcs/01-ajuliao.conf /etc/nginx/http.d/
+COPY ./conf/01-ajuliao.conf /etc/nginx/http.d/
 
 RUN sed -i "s|\${WP_DOMAIN}|${WP_DOMAIN}|g" /etc/nginx/http.d/01-ajuliao.conf
 
