@@ -67,6 +67,20 @@ services:
      - mariadb
      - wordpress
 
+  redis:
+    container_name: redis
+    image: redis:42
+    build:
+      context: ./requirements/bonus/redis
+      dockerfile: Dockerfile
+    ports:
+     - "6379:6379"
+    networks:
+     - inception
+    restart: on-failure
+    depends_on:
+     - wordpress
+
 volumes:
   wordpress:
     name: wordpress

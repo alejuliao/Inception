@@ -25,6 +25,9 @@ shell-db:
 shell-wp:
 	docker exec -it wordpress sh
 
+shell-redis:
+	docker exec -it redis sh
+
 build:
 	$(DOCKER-COMPOSE) build --no-cache
 

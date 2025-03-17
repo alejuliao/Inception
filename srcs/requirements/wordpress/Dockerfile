@@ -16,7 +16,8 @@ RUN apk update && apk upgrade && \
     php83-mbstring \
     php-cli \
     php-phar \
-    mariadb-client\
+    mariadb-client \
+     php-tokenizer \
     curl vim bash
 
 WORKDIR /var/www/html
