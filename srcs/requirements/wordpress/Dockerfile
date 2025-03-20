@@ -28,7 +28,7 @@ RUN curl -o wordpress.tar.gz https://wordpress.org/wordpress-6.4.tar.gz && \
 
 RUN chown -R nobody:nobody /var/www/html/
 
-COPY /conf/www.conf /etc/php83/php-fpm.d/www.conf
+COPY ./conf/www.conf /etc/php83/php-fpm.d/www.conf
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
@@ -36,7 +36,9 @@ RUN chmod +x wp-cli.phar
 
 RUN mv wp-cli.phar /usr/local/bin/wp
 
-COPY ./tools/init.sh /var/www/html/
+COPY ./tools/init.sh /tmp
+
+RUN chmod +x /tmp/init.sh
 
 RUN sed -i \
     -e "s|\${WP_TITLE}|${WP_TITLE}|g" \
@@ -46,12 +48,11 @@ RUN sed -i \
     -e "s|\${WP_PASSWORD}|${WP_PASSWORD}|g" \
     -e "s|\${SQL_USER}|${SQL_USER}|g" \
     -e "s|\${SQL_ROOT_PASSWORD}|${SQL_ROOT_PASSWORD}|g" \
-    /var/www/html/init.sh
+    /tmp/init.sh
 
 #clean apk useless
 
-RUN chmod +x /var/www/html/init.sh
 
 EXPOSE 9000
 
-ENTRYPOINT ["sh", "/var/www/html/init.sh"]
+ENTRYPOINT ["sh", "/tmp/init.sh"]

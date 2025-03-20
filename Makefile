@@ -1,12 +1,12 @@
 DOCKER-COMPOSE=docker-compose --env-file ./srcs/.env -f ./srcs/docker-compose.yml
 
-up: create-volumes
+up: 
 	$(DOCKER-COMPOSE) up -d
 
 down:
 	$(DOCKER-COMPOSE) down
 
-clean: remove-volumes
+clean:
 	$(DOCKER-COMPOSE) down -v
 
 restart:
@@ -33,10 +33,6 @@ build:
 
 ps:
 	$(DOCKER-COMPOSE) ps
-
-create-volumes:
-	docker volume create wordpress
-	docker volume create mariadb
 
 remove-volumes:
 	docker volume rm wordpress

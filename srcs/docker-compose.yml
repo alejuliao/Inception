@@ -1,7 +1,8 @@
-version: '3'
+version: '3.9'
 
 networks:
   inception:
+    name: inception
     driver: bridge
 
 services:
@@ -84,7 +85,7 @@ services:
 volumes:
   wordpress:
     name: wordpress
-    external: true
+    driver: local
   mariadb:
     name: mariadb
-    external: true
+    driver: local
