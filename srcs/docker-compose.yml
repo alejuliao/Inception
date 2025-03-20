@@ -82,10 +82,30 @@ services:
     depends_on:
      - wordpress
 
+  adminer:
+    container_name: adminer
+    image: adminer:42
+    build: 
+      context: ./requirements/bonus/adminer
+      dockerfile: Dockerfile
+    ports:
+     - "8000:8000"
+    networks:
+     - inception
+    restart: on-failure
+    depends_on:
+     - mariadb
+
 volumes:
   wordpress:
-    name: wordpress
     driver: local
+    driver_opts:
+      type: none
+      device: /home/ajuliao/data/wordpress
+      o: bind
   mariadb:
-    name: mariadb
     driver: local
+    driver_opts:
+      type: none
+      device: /home/ajuliao/data/mariadb
+      o: bind

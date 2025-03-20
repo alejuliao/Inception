@@ -2,7 +2,7 @@
 
 if [ ! -f wp-config.php ]; then
     wp config create --dbname=wpdb --dbuser=${WP_USER} --dbpass=${WP_PASSWORD} --dbhost=mariadb --dbprefix=wp_ --allow-root
-    # echo "\$_SERVER['HTTP_HOST'] = '${WP_DOMAIN}';" >> wp-config.php
+    echo "\$_SERVER['HTTP_HOST'] = '${WP_DOMAIN}';" >> wp-config.php
 fi
 
 wp config set WP_REDIS_HOST "redis" --allow-root
