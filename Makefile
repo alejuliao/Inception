@@ -20,13 +20,24 @@ shell-nginx:
 
 shell-db:
 	docker exec -it mariadb sh
-# mariadb -u root -p
 
 shell-wp:
 	docker exec -it wordpress sh
 
 shell-redis:
 	docker exec -it redis sh
+
+shell-adminer:
+	docker exec -it adminer sh
+
+shell-ftp:
+	docker exec -it ftp sh
+
+shell-resume:
+	docker exec -it resume sh
+
+shell-monitor:
+	docker exec -it monitoring sh
 
 build:
 	$(DOCKER-COMPOSE) build --no-cache
