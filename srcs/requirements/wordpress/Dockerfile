@@ -5,6 +5,9 @@ ARG WP_DOMAIN
 ARG WP_EMAIL
 ARG WP_USER
 ARG WP_PASSWORD
+ARG WP_SECOND_USER
+ARG WP_SECOND_USER_MAIL
+ARG WP_SECOND_PASSWORD
 ARG SQL_USER
 ARG SQL_ROOT_PASSWORD
 
@@ -17,7 +20,7 @@ RUN apk update && apk upgrade && \
     php-cli \
     php-phar \
     mariadb-client \
-     php-tokenizer \
+    php-tokenizer \
     curl vim bash
 
 WORKDIR /var/www/html
@@ -46,12 +49,12 @@ RUN sed -i \
     -e "s|\${WP_EMAIL}|${WP_EMAIL}|g" \
     -e "s|\${WP_USER}|${WP_USER}|g" \
     -e "s|\${WP_PASSWORD}|${WP_PASSWORD}|g" \
+    -e "s|\${WP_SECOND_USER}|${WP_SECOND_USER}|g" \
+    -e "s|\${WP_SECOND_USER_MAIL}|${WP_SECOND_USER_MAIL}|g" \
+    -e "s|\${WP_SECOND_PASSWORD}|${WP_SECOND_PASSWORD}|g" \
     -e "s|\${SQL_USER}|${SQL_USER}|g" \
     -e "s|\${SQL_ROOT_PASSWORD}|${SQL_ROOT_PASSWORD}|g" \
     /tmp/init.sh
-
-#clean apk useless
-
 
 EXPOSE 9000
 

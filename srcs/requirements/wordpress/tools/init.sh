@@ -11,8 +11,10 @@ wp config set WP_CACHE true --raw --allow-root
 
 if ! wp core is-installed --allow-root; then
     wp core install --url=${WP_DOMAIN} --title="${WP_TITLE}" --admin_user="${WP_USER}" --admin_password="${WP_PASSWORD}" --admin_email="${WP_EMAIL}" --skip-email --allow-root;
-    wp user create "${WP_SECOND_USER}" "${WP_SECOND_USER_MAIL}" --role=editor --user_pass="${WP_SECOND_PASSWORD}" --allow-root --skip-email;
 fi
+
+wp user get "${WP_SECOND_USER}" --allow-root 2>/dev/null || \
+wp user create "${WP_SECOND_USER}" "${WP_SECOND_USER_MAIL}" --role=editor --user_pass="${WP_SECOND_PASSWORD}" --allow-root --skip-email
 
 
 wp plugin install redis-cache --activate --allow-root

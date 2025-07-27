@@ -128,25 +128,25 @@ services:
     depends_on:
      - nginx
 
-  prometheus:
-    container_name: prometheus
-    image: prometheus:42
-    build:
-      context: ./requirements/bonus/monitoring
-      dockerfile: Dockerfile
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus_data:/prometheus
-    ports:
-      - "9090:9090"
-    networks:
-      - inception
-    restart: always
-    depends_on:
-      - wordpress
-      - mariadb
-      - nginx
-      - redis
+  # prometheus:
+  #   container_name: prometheus
+  #   image: prometheus:42
+  #   build:
+  #     context: ./requirements/bonus/monitoring
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - prometheus_data:/prometheus
+  #   ports:
+  #     - "9090:9090"
+  #   networks:
+  #     - inception
+  #   restart: always
+  #   depends_on:
+  #     - wordpress
+  #     - mariadb
+  #     - nginx
+  #     - redis
   # monitoring:
   #   container_name: monitoring
   #   image: monitoring:42
@@ -174,10 +174,10 @@ volumes:
       type: none
       device: /home/ajuliao/data/mariadb
       o: bind
-  prometheus_data:
-    name: prometheus_data
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/ajuliao/data/prometheus_data
-      o: bind
+  # prometheus_data:
+  #   name: prometheus_data
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     device: /home/ajuliao/data/prometheus_data
+  #     o: bind
