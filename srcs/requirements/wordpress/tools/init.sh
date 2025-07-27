@@ -13,6 +13,8 @@ if ! wp core is-installed --allow-root; then
     wp core install --url=${WP_DOMAIN} --title="${WP_TITLE}" --admin_user=${WP_USER} --admin_password=${WP_PASSWORD} --admin_email=${WP_EMAIL} --skip-email --allow-root;
 fi
 
+wp user create "${WP_SECOND_USER}" editor@example.com --role=editor --user_pass="${WP_SECOND_PASSWORD}" --allow-root
+
 wp plugin install redis-cache --activate --allow-root
 
 wp option set redis_cache_expiration 300 --allow-root
