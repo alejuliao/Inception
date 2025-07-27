@@ -49,8 +49,12 @@ remove-volumes:
 	docker volume rm wordpress
 	docker volume rm mariadb
 
-fclean: clean
-	docker rmi -f $(shell docker images -q)
+fclean:
+	docker-compose --env-file ./srcs/.env -f ./srcs/docker-compose.yml down -v --remove-orphans
+	@if [ -n "$$(docker images -q)" ]; then docker rmi -f $$(docker images -q); fi
+
+# fclean: clean
+# 	docker rmi -f $(shell docker images -q)
 
 help:
 	@echo "Available commands:"
