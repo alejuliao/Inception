@@ -39,6 +39,7 @@ services:
         SQL_USER: ${SQL_USER}
         SQL_ROOT_PASSWORD: ${SQL_ROOT_PASSWORD}
         WP_SECOND_USER: ${WP_SECOND_USER}
+        WP_SECOND_USER_MAIL: ${WP_SECOND_USER_MAIL}
         WP_SECOND_PASSWORD: ${WP_SECOND_PASSWORD}
     volumes:
      - wordpress:/var/www/html
