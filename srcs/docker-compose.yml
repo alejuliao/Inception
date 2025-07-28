@@ -99,21 +99,6 @@ services:
      - mariadb
      - nginx
 
-  # ftp:
-  #   container_name: ftp
-  #   image: ftp:42
-  #   build:
-  #     context: ./requirements/bonus/ftp
-  #     dockerfile: Dockerfile
-    # ports:
-    #  - "21:21"
-  #     - "40000-50000:40000-50000"
-  #   networks:
-  #    - inception
-  #   restart: on-failure
-  #   depends_on:
-  #    - nginx
-
   resume:
     container_name: resume
     image: resume:42
@@ -127,37 +112,6 @@ services:
     restart: on-failure
     depends_on:
      - nginx
-
-  # prometheus:
-  #   container_name: prometheus
-  #   image: prometheus:42
-  #   build:
-  #     context: ./requirements/bonus/monitoring
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
-  #     - prometheus_data:/prometheus
-  #   ports:
-  #     - "9090:9090"
-  #   networks:
-  #     - inception
-  #   restart: always
-  #   depends_on:
-  #     - wordpress
-  #     - mariadb
-  #     - nginx
-  #     - redis
-  # monitoring:
-  #   container_name: monitoring
-  #   image: monitoring:42
-  #   build:
-  #     context: ./requirements/bonus/monitoring
-  #     dockerfile: Dockerfile
-  #   ports:
-  #    - "7777:7777"
-  #   networks:
-  #    - inception
-
 
 volumes:
   wordpress:
@@ -174,10 +128,3 @@ volumes:
       type: none
       device: /home/ajuliao/data/mariadb
       o: bind
-  # prometheus_data:
-  #   name: prometheus_data
-  #   driver: local
-  #   driver_opts:
-  #     type: none
-  #     device: /home/ajuliao/data/prometheus_data
-  #     o: bind

@@ -36,9 +36,6 @@ shell-ftp:
 shell-resume:
 	docker exec -it resume sh
 
-shell-monitor:
-	docker exec -it monitoring sh
-
 build:
 	$(DOCKER-COMPOSE) build --no-cache
 
@@ -53,9 +50,6 @@ fclean:
 	docker-compose --env-file ./srcs/.env -f ./srcs/docker-compose.yml down -v --remove-orphans
 	@if [ -n "$$(docker images -q)" ]; then docker rmi -f $$(docker images -q); fi
 
-# fclean: clean
-# 	docker rmi -f $(shell docker images -q)
-
 help:
 	@echo "Available commands:"
 	@echo "  make up          - Start all services in detached mode"
@@ -69,5 +63,3 @@ help:
 	@echo "  make shell-wp    - Access the WordPress container shell"
 	@echo "  make build       - Build images without cache"
 	@echo "  make ps          - Show running services"
-	@echo "  make create-volumes - Create required volumes"
-	@echo "  make remove-volumes - Remove created volumes"

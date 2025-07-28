@@ -19,7 +19,7 @@ if ! wp user get ${WP_SECOND_USER} --allow-root >/dev/null 2>&1; then
         ${WP_SECOND_USER} \
         ${WP_SECOND_USER_MAIL} \
         --user_pass=${WP_SECOND_PASSWORD} \
-        --role='author' --skip-email
+        --role='author'
 fi
 
 
